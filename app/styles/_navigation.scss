@@ -1,0 +1,17 @@
+#main-nav,
+#main-nav li {
+  background-color: lighten($background-color, 10%);
+}
+
+#main-nav {
+  a {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding-left: 0;
+    padding-right: 0;
+    border-bottom: 2px solid transparent;
+  }
+  a.current {
+    border-bottom: 2px solid teal;
+  }
+}

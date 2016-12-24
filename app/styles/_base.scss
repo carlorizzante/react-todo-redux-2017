@@ -1,0 +1,10 @@
+body {
+  background-color: lighten($background-color, 20%);
+  color: $text-colot;
+}
+
+.page-title {
+  margin: 4rem auto 0;
+  font-style: italic;
+  color: teal;
+}
