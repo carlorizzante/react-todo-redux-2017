@@ -10,7 +10,7 @@ const AddTodo = React.createClass({
       this.refs.name.value = "";
       this.props.onSubmit(todo);
     }
-    // this.refs.name.focus();
+    if (typeof this.refs.name.focus == "function") this.refs.name.focus();
   },
   render: function() {
     return (

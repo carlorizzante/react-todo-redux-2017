@@ -1,6 +1,9 @@
 const React = require("react");
 
 const SearchTodos = React.createClass({
+  propTypes: {
+    onSearch: React.PropTypes.func.isRequired
+  },
   onSubmit: function(event) {
     event.preventDefault();
     console.log("Some search is occurring...");
