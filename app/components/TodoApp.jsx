@@ -1,5 +1,6 @@
 const React = require("react");
 
+const SearchTodos = require("SearchTodos");
 const TodoList = require("TodoList");
 const AddTodo = require("AddTodo");
 
@@ -48,6 +49,7 @@ const TodoApp = React.createClass({
       <div id="todoapp" className="row">
         <div className="columns small-12 small-centered medium-8 large-6">
           <p>Todo App</p>
+          <SearchTodos/>
           <TodoList todos={todos}/>
           <AddTodo onSubmit={this.handleNewTodo}/>
         </div>
