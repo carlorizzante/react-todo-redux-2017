@@ -1,6 +1,7 @@
 const React = require("react");
 
 const TodoList = require("TodoList");
+const AddTodo = require("AddTodo");
 
 const TodoApp = React.createClass({
   getInitialState: function() {
@@ -38,12 +39,18 @@ const TodoApp = React.createClass({
       ]
     };
   },
+  handleNewTodo: function(todo) {
+    // console.log("New todo received:", todo);
+  },
   render: function() {
     const { todos } = this.state;
     return (
-      <div id="todoapp">
-        <p>TodoApp.jsx</p>
-        <TodoList todos={todos}/>
+      <div id="todoapp" className="row">
+        <div className="columns small-12 small-centered medium-8 large-6">
+          <p>Todo App</p>
+          <TodoList todos={todos}/>
+          <AddTodo onSubmit={this.handleNewTodo}/>
+        </div>
       </div>
     );
   }
