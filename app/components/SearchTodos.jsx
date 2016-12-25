@@ -1,11 +1,27 @@
 const React = require("react");
 
 const SearchTodos = React.createClass({
+  onSubmit: function(event) {
+    event.preventDefault();
+    console.log("Some search is occurring...");
+  },
+  onChange: function() {
+    const search_state = {
+      search_text: this.refs.searchText.value.toLowerCase(),
+      show_completed: this.refs.showCompleted.checked
+    }
+    this.props.onSearch(search_state);
+  },
   render: function() {
     return (
       <div id="search-todos">
-        <input id="searchText" type="search" ref="searchText" placeholder="Search todo..."/>
-        <input id="searchCheck" ref="searchCheckbox" type="checkbox" /><label for="check">Show completed todos</label>
+        <form onSubmit={this.onSubmit}>
+          <input type="search" ref="searchText" placeholder="Search todo..." onChange={this.onChange}/>
+          <label>
+            <input ref="showCompleted" type="checkbox" onChange={this.onChange}/>
+            Show completed todos
+          </label>
+        </form>
       </div>
     );
   }

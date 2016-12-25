@@ -15,6 +15,8 @@ const TodoApp = React.createClass({
     //   }
     // ]
     return {
+      search_text: null,
+      show_completed: null,
       todos: [
         {
           "_id": "585ec7360ff3683a6ecd97a3",
@@ -43,13 +45,21 @@ const TodoApp = React.createClass({
   handleNewTodo: function(todo) {
     // console.log("New todo received:", todo);
   },
+  handleSearch: function(search_state) {
+    const { search_text, show_completed } = search_state;
+    console.log(search_text);
+    this.setState({
+      search_text,
+      show_completed
+    });
+  },
   render: function() {
     const { todos } = this.state;
     return (
       <div id="todoapp" className="row">
         <div className="columns small-12 small-centered medium-8 large-6">
-          <p>Todo App</p>
-          <SearchTodos/>
+          <h1 className="page-title text-center">Todo App</h1>
+          <SearchTodos onSearch={this.handleSearch}/>
           <TodoList todos={todos}/>
           <AddTodo onSubmit={this.handleNewTodo}/>
         </div>
