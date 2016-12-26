@@ -11,6 +11,16 @@ describe("AddTodo", () => {
     expect(AddTodo).toExist();
   });
 
+  describe("render", () => {
+    it("should render AddTodo component", () => {
+      const addtodo = TestUtils.renderIntoDocument(<AddTodo onSubmit={()=>{}}/>);
+      const $el = $(ReactDOM.findDOMNode(addtodo));
+      expect($el.find("#add-todo")).toExist();
+      expect($el.find("input[type=text]").length).toBe(1);
+      expect($el.find("button").length).toBe(1);
+    });
+  });
+
   describe("onSubmit", () => {
     it("should call onSubmit with valid arguments", () => {
       const spy = expect.createSpy();

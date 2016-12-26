@@ -10,4 +10,12 @@ describe("Todo", () => {
   it("should exist", () => {
     expect(Todo).toExist();
   });
+
+  describe("render", () => {
+    it("should render Todo component", () => {
+      const todo = TestUtils.renderIntoDocument(<Todo/>);
+      const $el = $(ReactDOM.findDOMNode(todo));
+      // expect($el.find("li").lenght).toBe(1);
+    });
+  });
 });

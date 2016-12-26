@@ -3,6 +3,9 @@ const React = require("react");
 const { isString, isEmpty } = require("utils");
 
 const AddTodo = React.createClass({
+  propTypes: {
+    onSubmit: React.PropTypes.func.isRequired
+  },
   onSubmit: function(event) {
     event.preventDefault();
     const todo = this.refs.name.value;

@@ -9,7 +9,7 @@ const TodoList = React.createClass({
   render: function() {
     const todos = this.props.todos.map(todo => <Todo key={todo._id} {...todo}/>);
     return (
-      <ol id="todolist">
+      <ol id="todo-list">
         {todos}
       </ol>
     );
