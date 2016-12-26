@@ -14,23 +14,23 @@ const Todo = require("Todo");
 const todos = [
   {
     _id: uuid(),
-    isActive: false,
+    completed: false,
     text: "irure sint ullamco et tempor"
   },{
     _id: uuid(),
-    isActive: true,
+    completed: true,
     text: "esse esse ut minim consequat"
   },{
     _id: uuid(),
-    isActive: false,
+    completed: false,
     text: "occaecat id incididunt ullamco exercitation"
   },{
     _id: uuid(),
-    isActive: true,
+    completed: true,
     text: "cupidatat consequat Lorem nisi veniam"
   },{
     _id: uuid(),
-    isActive: true,
+    completed: true,
     text: "occaecat officia enim laborum fugiat"
   }
 ];
@@ -74,7 +74,7 @@ describe("TodoApp", () => {
     it("should render a Todo component for each todo", () => {
       const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
       const $el = $(ReactDOM.findDOMNode(todoapp));
-      todoapp.state.todos = todos;
+      todoapp.setState({todos});
       const components = TestUtils.scryRenderedComponentsWithType(todoapp, Todo);
       expect(components.length).toBe(todos.length);
       expect($el.find("#todo-list li").length).toBe(todos.length);
@@ -85,7 +85,7 @@ describe("TodoApp", () => {
     it("should add new todo", () => {
       const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
       const $el = $(ReactDOM.findDOMNode(todoapp));
-      todoapp.state.todos = todos;
+      todoapp.setState({todos});
       todoapp.handleNewTodo("Some text");
       const components = TestUtils.scryRenderedComponentsWithType(todoapp, Todo);
       expect(components.length).toBe(todos.length + 1);
@@ -96,12 +96,24 @@ describe("TodoApp", () => {
     it("should correctly set properties on new todo", () => {
       const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
       const $el = $(ReactDOM.findDOMNode(todoapp));
-      todoapp.state.todos = todos;
+      todoapp.setState({todos});
       const last = todos.length;
       todoapp.handleNewTodo("Some text");
       expect(todoapp.state.todos[last]._id).toBeA("string");
-      expect(todoapp.state.todos[last].isActive).toBeA("boolean");
+      expect(todoapp.state.todos[last].completed).toBeA("boolean");
       expect(todoapp.state.todos[last].text).toBe("Some text");
+    });
+  });
+
+  describe("handleTodoToggle", () => {
+    it("should toggle completed on a specific (randomized) todo", () => {
+      const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
+      todoapp.setState({todos});
+      const random_todo = Math.floor(Math.random() * (todos.length)); // Pick up a random todo and stick with it
+      const value = todos[random_todo].completed;
+      todoapp.handleTodoToggle(todoapp.state.todos[random_todo]._id);
+      expect(todoapp.state.todos[random_todo].completed).toBeA("boolean");
+      expect(todoapp.state.todos[random_todo].completed).toBe(!value);
     });
   });
 });

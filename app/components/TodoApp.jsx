@@ -21,23 +21,23 @@ const TodoApp = React.createClass({
       todos: [
         {
           _id: uuid(),
-          isActive: false,
+          completed: false,
           text: "irure sint ullamco et tempor"
         },{
           _id: uuid(),
-          isActive: true,
+          completed: true,
           text: "esse esse ut minim consequat"
         },{
           _id: uuid(),
-          isActive: false,
+          completed: false,
           text: "occaecat id incididunt ullamco exercitation"
         },{
           _id: uuid(),
-          isActive: true,
+          completed: true,
           text: "cupidatat consequat Lorem nisi veniam"
         },{
           _id: uuid(),
-          isActive: true,
+          completed: true,
           text: "occaecat officia enim laborum fugiat"
         }
       ]
@@ -49,7 +49,7 @@ const TodoApp = React.createClass({
         ...this.state.todos,
         {
           _id: uuid(),
-          isActive: false,
+          completed: false,
           text: todo
         }
       ]
@@ -57,11 +57,22 @@ const TodoApp = React.createClass({
   },
   handleSearch: function(search_state) {
     const { search_text, show_completed } = search_state;
-    console.log(search_text);
+    // console.log(search_text);
     this.setState({
       search_text,
       show_completed
     });
+  },
+  handleTodoToggle: function(_id) {
+    // console.log("Toggling todo", _id);
+    const todos = this.state.todos.map(todo => {
+      if (todo._id === _id) todo.completed = !todo.completed;
+      return todo;
+    });
+    this.setState({
+      todos: todos
+    });
+    // console.log(this.state.todos);
   },
   render: function() {
     const { todos } = this.state;
@@ -70,7 +81,7 @@ const TodoApp = React.createClass({
         <div className="columns small-12 small-centered medium-8 large-6">
           <h1 className="page-title text-center">Todo App</h1>
           <SearchTodos onSearch={this.handleSearch}/>
-          <TodoList todos={todos}/>
+          <TodoList todos={todos} onTodoToggle={this.handleTodoToggle}/>
           <AddTodo onSubmit={this.handleNewTodo}/>
         </div>
       </div>
