@@ -2,7 +2,9 @@ const utils = {
 
   isString: str => typeof str == "string",
 
-  isEmpty: val => val == ""
+  isEmpty: val => val == "",
+
+  isArray: arg => Object.prototype.toString.call(arg) == "[object Array]"
 
 }
 
