@@ -11,34 +11,30 @@ const TodoList = require("TodoList");
 const AddTodo = require("AddTodo");
 const Todo = require("Todo");
 
-const todos = [
-  {
-    _id: uuid(),
-    completed: false,
-    text: "irure sint ullamco et tempor"
-  },{
-    _id: uuid(),
-    completed: true,
-    text: "esse esse ut minim consequat"
-  },{
-    _id: uuid(),
-    completed: false,
-    text: "occaecat id incididunt ullamco exercitation"
-  },{
-    _id: uuid(),
-    completed: true,
-    text: "cupidatat consequat Lorem nisi veniam"
-  },{
-    _id: uuid(),
-    completed: true,
-    text: "occaecat officia enim laborum fugiat"
-  }
-];
+let todos;
 
 describe("TodoApp", () => {
   it("should exist", () => {
     expect(TodoApp).toExist();
   });
+
+  beforeEach(() => {
+    todos = [
+      {
+        _id: uuid(),
+        completed: true,
+        text: "abc"
+      }, {
+        _id: uuid(),
+        completed: false,
+        text: "bCd"
+      }, {
+        _id: uuid(),
+        completed: true,
+        text: "deF"
+      }
+    ];
+  })
 
   describe("render", () => {
     it("should render TodoApp component", () => {
@@ -74,7 +70,8 @@ describe("TodoApp", () => {
     it("should render a Todo component for each todo", () => {
       const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
       const $el = $(ReactDOM.findDOMNode(todoapp));
-      todoapp.setState({todos});
+      const show_completed = true; // display all todos
+      todoapp.setState({todos, show_completed});
       const components = TestUtils.scryRenderedComponentsWithType(todoapp, Todo);
       expect(components.length).toBe(todos.length);
       expect($el.find("#todo-list li").length).toBe(todos.length);
@@ -85,7 +82,8 @@ describe("TodoApp", () => {
     it("should add new todo", () => {
       const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
       const $el = $(ReactDOM.findDOMNode(todoapp));
-      todoapp.setState({todos});
+      const show_completed = true; // display all todos
+      todoapp.setState({todos, show_completed});
       todoapp.handleNewTodo("Some text");
       const components = TestUtils.scryRenderedComponentsWithType(todoapp, Todo);
       expect(components.length).toBe(todos.length + 1);
@@ -114,6 +112,74 @@ describe("TodoApp", () => {
       todoapp.handleTodoToggle(todoapp.state.todos[random_todo]._id);
       expect(todoapp.state.todos[random_todo].completed).toBeA("boolean");
       expect(todoapp.state.todos[random_todo].completed).toBe(!value);
+    });
+  });
+
+  describe("filterTodos", () => {
+    // it("should display all todos if show_completed checked", () => {
+    //   const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
+    //   const show_completed = true; // display all todos
+    //   todoapp.setState({todos, show_completed});
+    //   const $el = $(ReactDOM.findDOMNode(todoapp));
+    //   const components = TestUtils.scryRenderedComponentsWithType(todoapp, Todo);
+    //   expect(components.length).toBe(todos.length);
+    //   expect($el.find("#todo-list li").length).toBe(todos.length);
+    // });
+
+    it("should return all todos when show_completed true", () => {
+      const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
+      const show_completed = true; // display all todos
+      const filteredTodos = todoapp.filterTodos(todos, show_completed);
+      expect(filteredTodos.length).toBe(todos.length);
+    });
+
+    // it("should display only not completed todos if show_completed unchecked", () => {
+    //   const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
+    //   const show_completed = false;
+    //   todoapp.setState({todos, show_completed});
+    //   const $el = $(ReactDOM.findDOMNode(todoapp));
+    //   const components = TestUtils.scryRenderedComponentsWithType(todoapp, Todo);
+    //   const filteredTodos = todos.filter(todo => !todo.completed);
+    //   expect(components.length).toBe(filteredTodos.length);
+    //   expect($el.find("#todo-list li").length).toBe(filteredTodos.length);
+    // });
+
+    it("shold return only not completed todos when show_completed false", () => {
+      const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
+      const show_completed = false; // display only not completed todos
+      const filteredTodos = todoapp.filterTodos(todos, show_completed);
+      expect(filteredTodos.length).toBe(1);
+    });
+
+    it("should sort by completed", () => {
+      const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
+      const show_completed = true;
+      const filteredTodos = todoapp.filterTodos(todos, show_completed)
+      expect(filteredTodos[0].text).toBe(todos[1].text);
+    });
+
+    it("should filter by search_text", () => {
+      const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
+      const show_completed = true;
+      const search_text = "abc";
+      const filteredTodos = todoapp.filterTodos(todos, show_completed, search_text);
+      expect(filteredTodos.length).toBe(1);
+    });
+
+    it("should ignore uppercase while filtering by text", () => {
+      const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
+      const show_completed = false;
+      const search_text = "Bc";
+      const filteredTodos = todoapp.filterTodos(todos, show_completed, search_text);
+      expect(filteredTodos.length).toBe(1);
+    });
+
+    it("should filter by completed and search_text", () => {
+      const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
+      const show_completed = true;
+      const search_text = "Bc";
+      const filteredTodos = todoapp.filterTodos(todos, show_completed, search_text);
+      expect(filteredTodos.length).toBe(2);
     });
   });
 });

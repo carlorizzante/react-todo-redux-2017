@@ -30,7 +30,7 @@ describe("SearchTodos", () => {
       searchtodos.refs.searchText.value = text;
       TestUtils.Simulate.change(searchtodos.refs.searchText);
       expect(spy).toHaveBeenCalledWith({
-        search_text: text.toLowerCase(),
+        search_text: text,
         show_completed: false
       });
     });

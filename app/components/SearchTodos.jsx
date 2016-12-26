@@ -10,7 +10,7 @@ const SearchTodos = React.createClass({
   },
   onChange: function() {
     const search_state = {
-      search_text: this.refs.searchText.value.toLowerCase(),
+      search_text: this.refs.searchText.value,
       show_completed: this.refs.showCompleted.checked
     }
     this.props.onSearch(search_state);
