@@ -1,4 +1,5 @@
 const React = require("react");
+const uuid = require("node-uuid");
 
 const SearchTodos = require("SearchTodos");
 const TodoList = require("TodoList");
@@ -19,31 +20,40 @@ const TodoApp = React.createClass({
       show_completed: null,
       todos: [
         {
-          "_id": "585ec7360ff3683a6ecd97a3",
-          "isActive": false,
-          "text": "irure sint ullamco et tempor"
+          _id: uuid(),
+          isActive: false,
+          text: "irure sint ullamco et tempor"
         },{
-          "_id": "585ec736d034996708954cd7",
-          "isActive": true,
-          "text": "esse esse ut minim consequat"
+          _id: uuid(),
+          isActive: true,
+          text: "esse esse ut minim consequat"
         },{
-          "_id": "585ec73620b504bf6fda6263",
-          "isActive": false,
-          "text": "occaecat id incididunt ullamco exercitation"
+          _id: uuid(),
+          isActive: false,
+          text: "occaecat id incididunt ullamco exercitation"
         },{
-          "_id": "585ec7368f015b25d7b7ad5c",
-          "isActive": true,
-          "text": "cupidatat consequat Lorem nisi veniam"
+          _id: uuid(),
+          isActive: true,
+          text: "cupidatat consequat Lorem nisi veniam"
         },{
-          "_id": "585ec736b539fad66477c937",
-          "isActive": true,
-          "text": "occaecat officia enim laborum fugiat"
+          _id: uuid(),
+          isActive: true,
+          text: "occaecat officia enim laborum fugiat"
         }
       ]
     };
   },
   handleNewTodo: function(todo) {
-    // console.log("New todo received:", todo);
+    this.setState({
+      todos: [
+        ...this.state.todos,
+        {
+          _id: uuid(),
+          isActive: false,
+          text: todo
+        }
+      ]
+    });
   },
   handleSearch: function(search_state) {
     const { search_text, show_completed } = search_state;
