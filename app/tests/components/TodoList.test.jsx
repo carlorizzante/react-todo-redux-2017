@@ -49,5 +49,13 @@ describe("TodoList", () => {
       const components = TestUtils.scryRenderedComponentsWithType(todolist, Todo);
       expect(components.length).toBe(todos.length);
     });
+
+    it("should render  default msg is no todos", () => {
+      const todos = []; // no todos!!
+      const todolist = TestUtils.renderIntoDocument(<TodoList todos={todos}/>);
+      const $el = $(ReactDOM.findDOMNode(todolist));
+      expect($el.find("#default-msg")).toExist();
+      expect($el.find("li").length).toBe(1);
+    });
   });
 });

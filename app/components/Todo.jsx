@@ -15,12 +15,17 @@ const Todo = React.createClass({
     const time = completed ?
       `Completed at ${formatTime(completedAt)}` :
       `Created at ${formatTime(createdAt)}`;
+    const todoClass = completed ?
+      "todo todo-completed" :
+      "todo";
     return (
-      <li id={_id}>
+      <li id={_id} className={todoClass}>
         <label>
-          <input type="checkbox" defaultChecked={completed} onClick={this.onToggle}/>
-          <p>{text}</p>
-          <p>{time}</p>
+          <input className="todo-toggle" type="checkbox" defaultChecked={completed} onClick={this.onToggle}/>
+          <div className="todo-content">
+            <p>{text}</p>
+            <p><i>{time}</i></p>
+          </div>
         </label>
       </li>
     );

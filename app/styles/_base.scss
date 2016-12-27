@@ -1,10 +1,113 @@
 body {
-  background-color: lighten($background-color, 20%);
-  color: $text-colot;
+  background-color: $background-color;
+  color: $text-color;
+
+  p {
+    color: $text-color;
+  }
+
+  i {
+    font-style: italic;
+    color: $text-color-alt;
+  }
 }
 
 .page-title {
-  margin: 4rem auto 0;
-  font-style: italic;
-  color: teal;
+  margin: 4rem auto 2rem;
+  color: $title-color;
+}
+
+.container {
+  margin: 0;
+  background-color: $background-color-alt;
+  border: $border-width $border-style $border-color;
+  border-radius: $border-radius;
+  box-shadow: 0px 0px 0px 1px $border-color-alt;
+}
+
+button,
+.button {
+  margin: 0 auto;
+  border-radius: $border-radius;
+  font-weight: bold;
+}
+
+input[type=text],
+input[type=search],
+input[type=checkbox] {
+  margin-bottom: $padding-side;
+  border-radius: $border-radius;
+
+  &:focus {
+    border-color: $border-color;
+    box-shadow: 0px 0px 1px 1px #42cbf4;
+  }
+}
+
+button,
+input,
+label {
+  cursor: pointer;
+}
+
+#search-todos {
+  border-bottom: $border-width $border-style $border-color;
+}
+
+#add-todo {
+  border-top: $border-width $border-style $border-color-alt;
+}
+
+#search-todos,
+#add-todo,
+.todo {
+  padding: $padding-side;
+}
+
+.todo {
+  width: auto;
+  border-top: $border-width $border-style $border-color-alt;
+  border-bottom: $border-width $border-style $border-color;
+  transition: all .3s ease;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: lighten($background-color-alt, 3%);
+  }
+}
+
+.todo .todo-toggle {
+  float: left;
+  margin-top: 0.9rem;
+}
+
+.todo-content {
+  display: inline-block;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  i {
+    font-size: 0.8rem;
+  }
+}
+
+.todo-completed {
+  background-color: darken($background-color-alt, 7%);
+
+  p {
+    text-decoration: line-through;
+  }
+}
+
+.message {
+  margin: 0 auto;
+  padding: 1rem $padding-side;
+
+  p {
+    margin: 0;
+    padding-left: $padding-side;
+  }
 }

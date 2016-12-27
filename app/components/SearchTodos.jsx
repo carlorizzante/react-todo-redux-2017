@@ -22,7 +22,7 @@ const SearchTodos = React.createClass({
           <input type="search" ref="searchText" placeholder="Search todo..." onChange={this.onChange}/>
           <label>
             <input ref="showCompleted" type="checkbox" onChange={this.onChange}/>
-            Show completed todos
+            <i>Show completed todos</i>
           </label>
         </form>
       </div>
