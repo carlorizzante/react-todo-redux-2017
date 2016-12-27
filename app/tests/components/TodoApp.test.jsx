@@ -81,25 +81,21 @@ describe("TodoApp", () => {
   describe("handleNewTodo", () => {
     it("should add new todo", () => {
       const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
-      const $el = $(ReactDOM.findDOMNode(todoapp));
-      const show_completed = true; // display all todos
-      todoapp.setState({todos, show_completed});
+      todoapp.setState({todos});
       todoapp.handleNewTodo("Some text");
-      const components = TestUtils.scryRenderedComponentsWithType(todoapp, Todo);
-      expect(components.length).toBe(todos.length + 1);
-      expect($el.find("#todo-list li").length).toBe(todos.length + 1);
+      const todoapp_todos_length = todoapp.state.todos.length;
       expect(todoapp.state.todos.length).toBe(todos.length + 1);
     });
 
     it("should correctly set properties on new todo", () => {
       const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
-      const $el = $(ReactDOM.findDOMNode(todoapp));
       todoapp.setState({todos});
-      const last = todos.length;
       todoapp.handleNewTodo("Some text");
+      const last = todoapp.state.todos.length - 1;
       expect(todoapp.state.todos[last]._id).toBeA("string");
       expect(todoapp.state.todos[last].completed).toBeA("boolean");
       expect(todoapp.state.todos[last].text).toBe("Some text");
+      expect(todoapp.state.todos[last].createdAt).toBeA("number");
     });
   });
 
@@ -112,6 +108,36 @@ describe("TodoApp", () => {
       todoapp.handleTodoToggle(todoapp.state.todos[random_todo]._id);
       expect(todoapp.state.todos[random_todo].completed).toBeA("boolean");
       expect(todoapp.state.todos[random_todo].completed).toBe(!value);
+    });
+
+    it("should set completedAt when toggle todo as completed", () => {
+      const todos = [
+        {
+          _id: uuid(),
+          completed: false,
+          text: "Some text"
+        }
+      ];
+      const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
+      todoapp.setState({todos});
+      todoapp.handleTodoToggle(todos[0]._id);
+      expect(todoapp.state.todos[0].completedAt).toBeA("number");
+    });
+
+    it("should unset completedAt when toggle todo as not completed", () => {
+      const todos = [
+        {
+          _id: uuid(),
+          completed: true,
+          text: "Some text",
+          completedAt: 123
+        }
+      ];
+      const todoapp = TestUtils.renderIntoDocument(<TodoApp/>);
+      todoapp.setState({todos});
+      todoapp.handleTodoToggle(todos[0]._id);
+      expect(todoapp.state.todos[0].completedAt).toNotExist();
+      expect(todoapp.state.todos[0].completedAt).toBe(null);
     });
   });
 

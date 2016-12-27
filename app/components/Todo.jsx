@@ -1,4 +1,5 @@
 const React = require("react");
+const moment = require("moment");
 
 const Todo = React.createClass({
   propTypes: {
@@ -9,12 +10,17 @@ const Todo = React.createClass({
     this.props.onToggle(_id);
   },
   render: function() {
-    const { _id, text, completed } = this.props;
+    const { _id, text, completed, createdAt, completedAt } = this.props;
+    const formatTime = timestamp => moment.unix(timestamp).format("Do MMM YYYY @ h:mm a");
+    const time = completed ?
+      `Completed at ${formatTime(completedAt)}` :
+      `Created at ${formatTime(createdAt)}`;
     return (
       <li id={_id}>
         <label>
           <input type="checkbox" defaultChecked={completed} onClick={this.onToggle}/>
-          {text}
+          <p>{text}</p>
+          <p>{time}</p>
         </label>
       </li>
     );

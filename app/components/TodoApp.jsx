@@ -1,5 +1,6 @@
 const React = require("react");
 const uuid = require("node-uuid");
+const moment = require("moment");
 
 const TodoAPI = require("TodoAPI");
 
@@ -27,7 +28,8 @@ const TodoApp = React.createClass({
         {
           _id: uuid(),
           completed: false,
-          text: todo
+          text: todo,
+          createdAt: moment().unix()
         }
       ]
     });
@@ -42,6 +44,7 @@ const TodoApp = React.createClass({
   handleTodoToggle: function(_id) {
     const todos = this.state.todos.map(todo => {
       if (todo._id === _id) todo.completed = !todo.completed;
+      todo.completedAt = todo.completed ? moment().unix() : null;
       return todo;
     });
     this.setState({
