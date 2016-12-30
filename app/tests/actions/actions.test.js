@@ -20,6 +20,16 @@ describe("Actions", () => {
     });
   });
 
+  describe("showCompletedTodos", () => {
+    it("should generate action", () => {
+      const action = {
+        type: "TOGGLE_SHOW_COMPLETED"
+      }
+      const res = toggleShowCompleted();
+      expect(res).toEqual(action);
+    });
+  });
+
   describe("addTodo", () => {
     it("should generate action with todo text", () => {
       const action = {
@@ -38,16 +48,6 @@ describe("Actions", () => {
         _id: 12
       }
       const res = toggleTodo(12);
-      expect(res).toEqual(action);
-    });
-  });
-
-  describe("showCompletedTodos", () => {
-    it("should generate action", () => {
-      const action = {
-        type: "TOGGLE_SHOW_COMPLETED"
-      }
-      const res = toggleShowCompleted();
       expect(res).toEqual(action);
     });
   });

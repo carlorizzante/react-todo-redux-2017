@@ -3,6 +3,10 @@ export const setSearchText = search_text => ({
   search_text
 });
 
+export const toggleShowCompleted = () => ({
+  type: "TOGGLE_SHOW_COMPLETED"
+});
+
 export const addTodo = todo => ({
   type: "ADD_TODO",
   todo
@@ -11,8 +15,4 @@ export const addTodo = todo => ({
 export const toggleTodo = (_id) => ({
   type: "TOGGLE_TODO",
   _id
-});
-
-export const toggleShowCompleted = () => ({
-  type: "TOGGLE_SHOW_COMPLETED"
 });

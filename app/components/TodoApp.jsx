@@ -14,7 +14,7 @@ const TodoApp = React.createClass({
   getInitialState: function() {
     return {
       search_text: "",
-      show_completed: null,
+      show_completed: false, // changed from null to false
       todos: TodoAPI.getTodos()
     };
   },
