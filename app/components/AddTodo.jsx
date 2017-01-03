@@ -1,17 +1,17 @@
 const React = require("react");
+const { connect } = require("react-redux");
 
+const actions = require("actions");
 const { isString, isEmpty } = require("utils");
 
-const AddTodo = React.createClass({
-  propTypes: {
-    onSubmit: React.PropTypes.func.isRequired
-  },
+export const AddTodo = React.createClass({
   onSubmit: function(event) {
     event.preventDefault();
+    const { dispatch } = this.props;
     const todo = this.refs.name.value;
     if (todo && !isEmpty(todo) && isString(todo)) {
       this.refs.name.value = "";
-      this.props.onSubmit(todo);
+      dispatch(actions.addTodo(todo));
     }
     if (typeof this.refs.name.focus == "function") this.refs.name.focus();
   },
@@ -27,4 +27,4 @@ const AddTodo = React.createClass({
   }
 });
 
-module.exports = AddTodo;
+export default connect()(AddTodo);

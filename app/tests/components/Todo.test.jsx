@@ -4,7 +4,7 @@ const expect = require("expect");
 const $ = require("jquery");
 const TestUtils = require("react-addons-test-utils");
 
-const Todo = require("Todo");
+const { Todo } = require("Todo");
 
 describe("Todo", () => {
   it("should exist", () => {
@@ -21,15 +21,18 @@ describe("Todo", () => {
   });
 
   describe("onToggle", () => {
-    it("should call onToggle with the correct _id", () => {
+    it("should dispatch TOGGLE_TODO action with correct _id on click", () => {
       const data = {
         _id: 12
       }
       const spy = expect.createSpy();
-      const todo = TestUtils.renderIntoDocument(<Todo {...data} onToggle={spy}/>);
+      const todo = TestUtils.renderIntoDocument(<Todo {...data} dispatch={spy}/>);
       const $el = $(ReactDOM.findDOMNode(todo));
       TestUtils.Simulate.click($el.find("input[type=checkbox]")[0]);
-      expect(spy).toHaveBeenCalledWith(data._id);
+      expect(spy).toHaveBeenCalledWith({
+        type: "TOGGLE_TODO",
+        _id: data._id
+      });
     });
   });
 });

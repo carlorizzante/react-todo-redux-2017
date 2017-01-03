@@ -1,27 +1,31 @@
 const React = require("react");
+const { connect } = require("react-redux");
 
-const SearchTodos = React.createClass({
-  propTypes: {
-    onSearch: React.PropTypes.func.isRequired
+const { setSearchText, toggleShowCompleted } = require("actions");
+
+export const SearchTodos = React.createClass({
+  onSearch: function() {
+    const { dispatch } = this.props;
+    const search_text = this.refs.searchText.value;
+    dispatch(setSearchText(search_text));
   },
-  onSubmit: function(event) {
-    event.preventDefault();
-    console.log("Some search is occurring...");
-  },
-  onChange: function() {
-    const search_state = {
-      search_text: this.refs.searchText.value,
-      show_completed: this.refs.showCompleted.checked
-    }
-    this.props.onSearch(search_state);
+  onToggle: function() {
+    const { dispatch } = this.props;
+    const show_completed = this.refs.showCompleted.checked;
+    dispatch(toggleShowCompleted(show_completed));
   },
   render: function() {
+    const { dispatch, search_text, show_completed } = this.props;
     return (
       <div id="search-todos">
-        <form onSubmit={this.onSubmit}>
-          <input type="search" ref="searchText" placeholder="Search todo..." onChange={this.onChange}/>
+        <form>
+          <input type="search" ref="searchText" placeholder="Search todo..."
+            value={search_text}
+            onChange={this.onSearch}/>
           <label>
-            <input ref="showCompleted" type="checkbox" onChange={this.onChange}/>
+            <input ref="showCompleted" type="checkbox"
+              checked={show_completed}
+              onChange={this.onToggle}/>
             <i>Show completed todos</i>
           </label>
         </form>
@@ -30,4 +34,12 @@ const SearchTodos = React.createClass({
   }
 });
 
-module.exports = SearchTodos;
+export default connect(
+  // ({ search_text, show_completed}) => ({ search_text, show_completed })
+  state => {
+    return {
+      search_text: state.search_text,
+      show_completed: state.show_completed
+    }
+  }
+)(SearchTodos);

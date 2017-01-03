@@ -1,5 +1,4 @@
 const expect = require("expect");
-console.log("actions.test.js");
 
 const actions = require("actions");
 const { setSearchText, addTodo, toggleTodo, toggleShowCompleted } = actions;

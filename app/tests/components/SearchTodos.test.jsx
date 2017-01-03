@@ -4,7 +4,7 @@ const expect = require("expect");
 const $ = require("jquery");
 const TestUtils = require("react-addons-test-utils");
 
-const SearchTodos = require("SearchTodos");
+import { SearchTodos } from "SearchTodos";
 
 describe("SearchTodos", () => {
   it("should exist", () => {
@@ -13,7 +13,7 @@ describe("SearchTodos", () => {
 
   describe("render", () => {
     it("should render SearchTodos component", () => {
-      const searchtodos = TestUtils.renderIntoDocument(<SearchTodos onSearch={()=>{}}/>);
+      const searchtodos = TestUtils.renderIntoDocument(<SearchTodos/>);
       const $el = $(ReactDOM.findDOMNode(searchtodos));
       expect($el.find("#search-todos")).toExist();
       expect($el.find("input").length).toBe(2);
@@ -23,27 +23,26 @@ describe("SearchTodos", () => {
   });
 
   describe("onChange", () => {
-    it("should call onChange with entered input text", () => {
-      const text = "Abc";
+    it("should dispatch SET_SEARCH_TEXT action with entered input text", () => {
+      const action = {
+        type: "SET_SEARCH_TEXT",
+        search_text: "abc"
+      }
       const spy = expect.createSpy();
-      const searchtodos = TestUtils.renderIntoDocument(<SearchTodos onSearch={spy}/>);
-      searchtodos.refs.searchText.value = text;
+      const searchtodos = TestUtils.renderIntoDocument(<SearchTodos dispatch={spy}/>);
+      searchtodos.refs.searchText.value = action.search_text;
       TestUtils.Simulate.change(searchtodos.refs.searchText);
-      expect(spy).toHaveBeenCalledWith({
-        search_text: text,
-        show_completed: false
-      });
+      expect(spy).toHaveBeenCalledWith(action);
     });
 
-    it("should call onChange with proper checked value", () => {
+    it("should dispatch TOGGLE_SHOW_COMPLETED action when checkbox changes", () => {
+      const action ={
+        type: "TOGGLE_SHOW_COMPLETED"
+      }
       const spy = expect.createSpy();
-      const searchtodos = TestUtils.renderIntoDocument(<SearchTodos onSearch={spy}/>);
-      searchtodos.refs.showCompleted.checked = true;
+      const searchtodos = TestUtils.renderIntoDocument(<SearchTodos dispatch={spy}/>);
       TestUtils.Simulate.change(searchtodos.refs.showCompleted);
-      expect(spy).toHaveBeenCalledWith({
-        search_text: "",
-        show_completed: true
-      });
+      expect(spy).toHaveBeenCalledWith(action);
     });
   });
 });
