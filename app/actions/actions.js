@@ -16,3 +16,8 @@ export const toggleTodo = (_id) => ({
   type: "TOGGLE_TODO",
   _id
 });
+
+export const addTodos = todos => ({
+  type: "ADD_TODOS",
+  todos
+});

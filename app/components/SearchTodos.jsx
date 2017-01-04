@@ -4,6 +4,10 @@ const { connect } = require("react-redux");
 const { setSearchText, toggleShowCompleted } = require("actions");
 
 export const SearchTodos = React.createClass({
+  propTypes: {
+    // search_text: React.PropTypes.string.isRequired,
+    // show_completed: React.PropTypes.bool.isRequired
+  },
   onSearch: function() {
     const { dispatch } = this.props;
     const search_text = this.refs.searchText.value;

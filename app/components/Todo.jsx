@@ -5,10 +5,16 @@ const moment = require("moment");
 const actions = require("actions");
 
 export const Todo = React.createClass({
+  propTypes: {
+    _id: React.PropTypes.string.isRequired,
+    text: React.PropTypes.string.isRequired,
+    completed: React.PropTypes.bool.isRequired,
+    createdAt: React.PropTypes.number.isRequired,
+    completedAt: React.PropTypes.number
+  },
   onToggle: function() {
     const { dispatch } = this.props;
     const { _id } = this.props;
-    // this.props.onToggle(_id);
     dispatch(actions.toggleTodo(_id));
   },
   render: function() {

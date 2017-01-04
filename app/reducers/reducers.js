@@ -35,13 +35,19 @@ export const todosReducer = (todos = [], action) => {
         }
       ];
       break;
-      case "TOGGLE_TODO":
-        return todos.map(todo => {
-          if (todo._id == action._id) todo.completed = !todo.completed;
-          todo.completedAt = todo.completed ? moment().unix() : null;
-          return todo;
-        });
-        break;
+    case "ADD_TODOS":
+      return [
+        ...todos,
+        ...action.todos
+      ];
+      break;
+    case "TOGGLE_TODO":
+      return todos.map(todo => {
+        if (todo._id == action._id) todo.completed = !todo.completed;
+        todo.completedAt = todo.completed ? moment().unix() : null;
+        return todo;
+      });
+      break;
     default:
       return todos;
   }

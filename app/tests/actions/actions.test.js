@@ -1,7 +1,14 @@
 const expect = require("expect");
+const uuid = require("node-uuid");
 
 const actions = require("actions");
-const { setSearchText, addTodo, toggleTodo, toggleShowCompleted } = actions;
+const {
+  setSearchText,
+  addTodo,
+  toggleTodo,
+  toggleShowCompleted,
+  addTodos
+} = actions;
 
 describe("Actions", () => {
   it("should exist", () => {
@@ -9,13 +16,14 @@ describe("Actions", () => {
   });
 
   describe("setSearchText", () => {
-    it("should generate action with search test", () => {
+    it("should generate action with search text", () => {
       const action = {
         type: "SET_SEARCH_TEXT",
         search_text: "Abc"
       }
       const res = setSearchText("Abc");
       expect(res).toEqual(action);
+      expect(res.search_text).toBeA("string");
     });
   });
 
@@ -37,6 +45,7 @@ describe("Actions", () => {
       }
       const res = addTodo("Abc");
       expect(res).toEqual(action);
+      expect(res.todo).toBeA("string");
     });
   });
 
@@ -48,6 +57,34 @@ describe("Actions", () => {
       }
       const res = toggleTodo(12);
       expect(res).toEqual(action);
+      expect(res._id).toExist(); // String or number
+    });
+  });
+
+  describe("addTodos", () => {
+    it("should generate action with todos array", () => {
+      const todos = [
+        {
+          _id: uuid(),
+          text: "irure sint ullamco et tempor",
+          completed: false,
+          completedAt: 123,
+          createdAt: 123
+        },{
+          _id: uuid(),
+          text: "esse esse ut minim consequat",
+          completed: true,
+          completedAt: 123,
+          createdAt: 123
+        }
+      ];
+      const action = {
+        type: "ADD_TODOS",
+        todos
+      }
+      const res = addTodos(todos);
+      expect(res).toEqual(action);
+      expect(res.todos).toBeA("array");
     });
   });
 });
